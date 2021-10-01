@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
 # Installing needed soft
 RUN apt-get update -y && \
