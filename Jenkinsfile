@@ -33,7 +33,7 @@ pipeline {
             ],
             genericHeaderVariables   : [[key: 'X-GitHub-Event', regexpFilter: 'push']],
             regexpFilterText         : '$ref',
-            regexpFilterExpression   : '^refs/heads/main$',
+            regexpFilterExpression   : '^refs/heads/master$',
             causeString              : 'Triggered by webhook',
             token                    : env.JOB_BASE_NAME,
             printPostContent         : 'true',
