@@ -5,6 +5,8 @@ env.LOG_LEVEL = "INFO"
 def imageUniqueTag
 def yamlContent
 
+def final ECR_URL = "${constants.OPS_SHARED_SERVICES_ACCOUNT}.dkr.ecr.${constants.AWS_DEFAULT_REGION}.amazonaws.com/dump-collector"
+
 node("master") {
     github.getFile("devops", "master", "jenkins/docker_files/slave.yaml", "slave.yaml")
     yamlContent = readFile(file: "slave.yaml").replaceAll("#ECR#", constants.OPS_SHARED_SERVICES_ACCOUNT)
@@ -54,7 +56,7 @@ pipeline {
         stage("Build and push") {
             steps {
                 script {
-                    dockerFunctions.buildAndPushDockerImage([], constants.OPS_SHARED_SERVICES_ACCOUNT, constants.AWS_DEFAULT_REGION, "dump-collector", ["latest", imageUniqueTag])
+                    dockerFunctions.buildAndPushMultiArchDockerImage([], ["${ECR_URL}:latest", "${ECR_URL}:${imageUniqueTag}"])
                 }
             }
         }
