@@ -47,8 +47,8 @@ pipeline {
         stage("Init") {
             steps {
                 script {
-                    def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-                    imageUniqueTag = "${shortCommit}-${env.BUILD_NUMBER}"
+                    def shortCommit = shell.withOutput("git log -n 1 --pretty=format:'%h'")
+                    imageUniqueTag = "$shortCommit-${env.BUILD_NUMBER}"
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
         stage("Build and push") {
             steps {
                 script {
-                    dockerFunctions.buildAndPushMultiArchDockerImage([], ["${ECR_URL}:latest", "${ECR_URL}:${imageUniqueTag}"])
+                    dockerFunctions.buildAndPushMultiArchDockerImage([], ["$ECR_URL:latest", "$ECR_URL:$imageUniqueTag"])
                 }
             }
         }
