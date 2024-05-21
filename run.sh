@@ -19,7 +19,8 @@ while true; do
             TIMESTAMP=$(date -r $FILE +"%Y_%m_%d_%H_%M_%S")
             FILENAME="${FILE%%.*}"
             FILE_EXTENSION="${FILE#*.}"
-            aws s3 mv $FILE s3://$S3bucket/$DATE_TODAY/$FILENAME_$EKS_CLUSTER_NAME_$TIMESTAMP.$FILE_EXTENSION --acl bucket-owner-full-control
+            DESTINATION_LOCATION="s3://$S3bucket/$DATE_TODAY/$FILENAME_$EKS_CLUSTER_NAME_$TIMESTAMP.$FILE_EXTENSION"
+            aws s3 mv $FILE $DESTINATION_LOCATION --acl bucket-owner-full-control
             RESULT=$?
             if [ $RESULT -ne 0 ]; then
                 echo "Failed to send dump file $FILE to S3 bucket $S3bucket"
