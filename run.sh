@@ -19,7 +19,7 @@ while true; do
             TIMESTAMP=$(date -r $FILE +"%Y_%m_%d_%H_%M_%S")
             FILENAME="${FILE%%.*}"
             FILE_EXTENSION="${FILE#*.}"
-            DESTINATION_LOCATION="s3://$S3bucket/$DATE_TODAY/$FILENAME_$EKS_CLUSTER_NAME_$TIMESTAMP.$FILE_EXTENSION"
+            DESTINATION_LOCATION="s3://${S3bucket}/${DATE_TODAY}/${FILENAME}_${EKS_CLUSTER_NAME}_${TIMESTAMP}.${FILE_EXTENSION}"
             aws s3 mv $FILE $DESTINATION_LOCATION --acl bucket-owner-full-control
             RESULT=$?
             if [ $RESULT -ne 0 ]; then
